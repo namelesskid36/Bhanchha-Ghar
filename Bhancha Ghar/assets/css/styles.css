@@ -90,6 +90,7 @@ ul {
 
 html,
 body {
+  background-color: var(--primary-color-light);
   scroll-behavior: smooth;
 }
 
