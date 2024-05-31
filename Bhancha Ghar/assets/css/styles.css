@@ -2,20 +2,20 @@
 
 :root {
   --primary-color: #fc7f09;
-  --primary-color-light: #fffcfa;
+  --primary-color-light: #18181b;
   --primary-color-dark: #db6e09;
-  --text-dark: #18181b;
-  --text-light: #6b7280;
-  --white: #ffffff;
+  --text-dark: #ffffff;
+  --text-light: #a1a1aa;
   --max-width: 1200px;
 }
 
 body.dark-mode {
   --primary-color: #fc7f09;
-  --primary-color-light: #18181b;
+  --primary-color-light: #fffcfa;
   --primary-color-dark: #db6e09;
-  --text-dark: #ffffff;
-  --text-light: #a1a1aa;
+  --text-dark: #18181b;
+  --text-light: #6b7280;
+  --white: #ffffff;
   --white: #18181b;
 }
 
@@ -45,6 +45,20 @@ body.dark-mode {
   color: var(--text-light);
   line-height: 1.75rem;
   text-align: center;
+}
+
+.draggable-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.draggable {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  cursor: grab;
+  user-select: none; /*Z-index:1*/
 }
 
 .btn {
@@ -168,7 +182,10 @@ nav {
 .header__image img {
   max-width: 600px;
   margin-inline: auto;
+  background-image: url("../images/food.png");
 }
+
+
 
 .header__content h1 {
   margin-bottom: 1rem;
@@ -827,7 +844,64 @@ button:hover .star-6 {
   fill: #fffdef;
 }
 
-/*another login button*/
+/*another Try this button*/
+
+.buttonn {
+  padding: 15px 20px;
+  font-size: 16px;
+  background: transparent;
+  border: none;
+  position: relative;
+  color: #f0f0f0;
+  z-index: 1;
+}
+
+.buttonn::after,
+.buttonn::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: -99999;
+  transition: all .4s;
+}
+
+.buttonn::before {
+  transform: translate(0%, 0%);
+  width: 100%;
+  height: 100%;
+  background: #28282d;
+  border-radius: 10px;
+}
+
+.buttonn::after {
+  transform: translate(10px, 10px);
+  width: 35px;
+  height: 35px;
+  background: #ffffff15;
+  backdrop-filter: blur(5px);
+  border-radius: 50px;
+}
+
+.buttonn:hover::before {
+  transform: translate(5%, 20%);
+  width: 110%;
+  height: 110%;
+}
+
+.buttonn:hover::after {
+  border-radius: 10px;
+  transform: translate(0, 0);
+  width: 100%;
+  height: 100%;
+}
+
+.buttonn:active::after {
+  transition: 0s;
+  transform: translate(0, 5%);
+}
+
+/*Explore moree*/
 
 
 /**/
