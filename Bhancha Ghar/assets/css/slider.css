@@ -153,10 +153,12 @@
   .blog-slider__pagination {
     position: absolute;
     z-index: 21;
-    right: 20px;
+    right: 20px; /* Ensure pagination is on the right */
     width: 11px !important;
     text-align: center;
-    top: 50%;
+    left: auto !important;
+    top: 40%; /* Move it up by reducing the percentage */
+    bottom: auto !important;
     transform: translateY(-50%);
   }
   
@@ -164,13 +166,14 @@
     .blog-slider__pagination {
       transform: translateX(-50%);
       left: 50% !important;
-      top: 205px;
+      top: 40%; /* Move it up by reducing the percentage */
       width: 100% !important;
       display: flex;
       justify-content: center;
       align-items: center;
     }
   }
+  
   
   .blog-slider__pagination .swiper-pagination-bullet {
     width: 11px;
