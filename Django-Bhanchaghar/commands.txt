@@ -1,9 +1,0 @@
-pip install django
-pip install python-dotenv
-pip install -r requirements.txt
-pip install social-auth-app-django
-pip install Pillow
-ani crisp from ni..
-python -m venv env
-
-and aaru..👍
