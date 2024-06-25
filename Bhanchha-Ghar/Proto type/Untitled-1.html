@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smooth Scroll</title>
+  <style>
+    html {
+  scroll-behavior: smooth;
+}
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      height: 100%;
+      overflow: hidden;
+    }
+    section {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+    #section1 { background-color: #f3a683; }
+    #section2 { background-color: #f7d794; }
+    #section3 { background-color: #786fa6; }
+  </style>
+</head>
+<body>
+  <section id="section1">Section 1</section>
+  <section id="section2">Section 2</section>
+  <section id="section3">Section 3</section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+  const sections = document.querySelectorAll('section');
+  const options = {
+    threshold: 0.7
+  };
+
+  let currentSection = sections[0];
+
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        currentSection = entry.target;
+      }
+    });
+  }, options);
+
+  sections.forEach(section => {
+    observer.observe(section);
+  });
+
+  window.addEventListener('wheel', (event) => {
+    if (event.deltaY > 0) {
+      // Scroll down
+      const nextSection = currentSection.nextElementSibling;
+      if (nextSection) {
+        nextSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Scroll up
+      const prevSection = currentSection.previousElementSibling;
+      if (prevSection) {
+        prevSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  });
+});
+
+  </script>
+</body>
+</html>
+
