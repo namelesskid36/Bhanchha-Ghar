@@ -4,9 +4,12 @@ from django.contrib.auth.views import LoginView, PasswordResetView, PasswordChan
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
+import logging
 from django.contrib.auth.decorators import login_required
 
 from .forms import RegisterForm, LoginForm, UpdateUserForm, UpdateProfileForm
+
+logger = logging.getLogger(__name__)
 
 def index(request):
     return render(request, 'users/index.html')
@@ -18,34 +21,35 @@ def logout(request):
     return render(request, 'users/logout.html')
 
 
+
+
 class RegisterView(View):
     form_class = RegisterForm
     initial = {'key': 'value'}
     template_name = 'users/register.html'
 
     def dispatch(self, request, *args, **kwargs):
-        # will redirect to the home page if a user tries to access the register page while logged in
         if request.user.is_authenticated:
-            return redirect(to='/')
+            # User is authenticated, redirect to home page
+            logger.debug("User already authenticated, redirecting to home.")
+            return redirect('home')
 
-        # else process dispatch as it otherwise normally would
+        logger.debug("RegisterView dispatch called.")
         return super(RegisterView, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
+        logger.debug("GET request to RegisterView")
         form = self.form_class(initial=self.initial)
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
+        logger.debug("POST request to RegisterView")
         form = self.form_class(request.POST)
-
         if form.is_valid():
             form.save()
-
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account created for {username}')
-
-            return redirect(to='login')
-
+            return redirect('login')
         return render(request, self.template_name, {'form': form})
 
 

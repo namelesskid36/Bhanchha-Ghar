@@ -7,7 +7,7 @@
     <title>Profile Page</title>
 
     <!-- Custom Css -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 
     <!-- FontAwesome 5 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
@@ -34,7 +34,7 @@
                 </a>
             </li>
             <li>
-                <a href="{% url 'logout' %}">
+                <a href="#sign-out">
                     <i class="fa fa-sign-out-alt fa-2x"></i>
                 </a>
             </li>
@@ -52,7 +52,7 @@
                 {{ user.username }}
             </div>
             <div class="job">
-                Web Developer
+                User
             </div>
         </div>
 
@@ -74,13 +74,13 @@
         <h2>IDENTITY</h2>
         <div class="card">
             <div class="card-body">
-                <i class="fa fa-pen fa-xs edit"></i>
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
+                    <i class="fa fa-pen fa-xs edit"></i>
                     <table>
                         <tbody>
                             <tr>
-                                <td>Username</td>
+                                <td>Name</td>
                                 <td>:</td>
                                 <td>{{ user_form.username }}</td>
                             </tr>
@@ -95,60 +95,53 @@
                                 <td>{{ profile_form.bio }}</td>
                             </tr>
                             <tr>
-                                <td>Change Avatar</td>
+                                <td>Profile Picture</td>
                                 <td>:</td>
                                 <td>{{ profile_form.avatar }}</td>
                             </tr>
                         </tbody>
                     </table>
-                    <br>
                     <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
-                    <button type="reset" class="btn btn-dark btn-lg">Reset</button>
-                    <br><a href="{% url 'home' %}" class="navbar-brand">Home</a>
+                <button>
+                    <a href="{% url 'home' %}" class="navbar-brand">Home</a></button>
                 </form>
             </div>
         </div>
 
-        <h2>SOCIAL MEDIA</h2>
+        <h2>CHANGE PASSWORD</h2>
         <div class="card">
             <div class="card-body">
-                <i class="fa fa-pen fa-xs edit"></i>
-                <div class="social-media">
-                    <span class="fa-stack fa-sm">
-                        <i class="fas fa-circle fa-stack-2x"></i>
-                        <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <span class="fa-stack fa-sm">
-                        <i class="fas fa-circle fa-stack-2x"></i>
-                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <span class="fa-stack fa-sm">
-                        <i class="fas fa-circle fa-stack-2x"></i>
-                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <span class="fa-stack fa-sm">
-                        <i class="fas fa-circle fa-stack-2x"></i>
-                        <i class="fab fa-invision fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <span class="fa-stack fa-sm">
-                        <i class="fas fa-circle fa-stack-2x"></i>
-                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <span class="fa-stack fa-sm">
-                        <i class="fas fa-circle fa-stack-2x"></i>
-                        <i class="fab fa-whatsapp fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <span class="fa-stack fa-sm">
-                        <i class="fas fa-circle fa-stack-2x"></i>
-                        <i class="fab fa-snapchat fa-stack-1x fa-inverse"></i>
-                    </span>
-                </div>
+                <form method="post" action="{% url 'change_password' %}">
+                    {% csrf_token %}
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Old Password</td>
+                                <td>:</td>
+                                <td><input type="password" name="old_password" required></td>
+                            </tr>
+                            <tr>
+                                <td>New Password</td>
+                                <td>:</td>
+                                <td><input type="password" name="new_password1" required></td>
+                            </tr>
+                            <tr>
+                                <td>Confirm New Password</td>
+                                <td>:</td>
+                                <td><input type="password" name="new_password2" required></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="submit" class="btn btn-dark btn-lg">Change Password</button>
+                </form>
             </div>
         </div>
     </div>
     <!-- End -->
 </body>
 </html>
+
+
 <style>
     /* Import Font Dancing Script */
 @import url(https://fonts.googleapis.com/css?family=Dancing+Script);
@@ -208,7 +201,44 @@ body {
 }
 
 /* End */
+button {
+ padding: 15px 25px;
+ border: unset;
+ border-radius: 15px;
+ color: #212121;
+ z-index: 1;
+ background: #e8e8e8;
+ position: relative;
+ font-weight: 1000;
+ font-size: 17px;
+ -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ transition: all 250ms;
+ overflow: hidden;
+}
 
+button::before {
+ content: "";
+ position: absolute;
+ top: 0;
+ left: 0;
+ height: 100%;
+ width: 0;
+ border-radius: 15px;
+ background-color: #212121;
+ z-index: -1;
+ -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+ transition: all 250ms
+}
+
+button:hover {
+ color: #e8e8e8;
+}
+
+button:hover::before {
+ width: 100%;
+}
 /* Sidenav */
 .sidenav {
     background-color: #fff;
@@ -299,54 +329,34 @@ body {
     padding: 20px 0 20px 50px;
 }
 
-.main .card table {
-    border: none;
-    font-size: 16px;
-    height: 270px;
-    width: 80%;
-}
-
 .edit {
-    position: absolute;
-    color: #e7e7e8;
-    right: 14%;
+    float: right;
+    margin-right: 20px;
+    cursor: pointer;
 }
 
+.table {
+    margin-top: 20px;
+}
+
+.table tr {
+    line-height: 35px;
+    font-size: 18px;
+}
+
+.table tr td:first-child {
+    font-weight: bold;
+    width: 150px;
+}
+
+/* Social Media */
 .social-media {
+    margin-top: 20px;
     text-align: center;
-    width: 90%;
 }
 
 .social-media span {
-    margin: 0 10px;
-}
-
-.fa-facebook:hover {
-    color: #4267b3 !important;
-}
-
-.fa-twitter:hover {
-    color: #1da1f2 !important;
-}
-
-.fa-instagram:hover {
-    color: #ce2b94 !important;
-}
-
-.fa-invision:hover {
-    color: #f83263 !important;
-}
-
-.fa-github:hover {
-    color: #161414 !important;
-}
-
-.fa-whatsapp:hover {
-    color: #25d366 !important;
-}
-
-.fa-snapchat:hover {
-    color: #fffb01 !important;
+    margin-right: 15px;
 }
 
 /* End */
