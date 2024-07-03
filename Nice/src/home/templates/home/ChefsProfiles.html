@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chefs</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="title">Chefs</div>
+        <div class="listchef">
+            {% for chef in chefs %}
+            <div class="item">
+                <img src="{{ chef.img.url }}" alt="chef Image" />
+                <h2>{{ chef.title }}</h2>
+                <p id="loc">Location: {{ chef.location }}</p>
+                <p class="price">{{ chef.price }}</p>
+                <a href="{% url 'product_detail' chef.id %}" class="button">View Now</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+a {
+    color: unset;
+    text-decoration: none;
+}
+
+.container {
+    width: 900px;
+    margin: auto;
+    max-width: 90vw;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.title {
+    font-size: xx-large;
+    padding: 20px 0;
+}
+
+.listchef .item img {
+    width: 90%;
+    filter: drop-shadow(0 50px 20px #0009);
+}
+
+.listchef {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.listchef .item {
+    background-color: #EEEEE6;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.listchef .item h2 {
+    font-weight: 500;
+    font-size: large;
+}
+
+.listchef .item .price {
+    letter-spacing: 7px;
+    font-size: small;
+}
+
+.listchef .item .button {
+    display: inline-block;
+    background-color: #2F2F2F;
+    color: #eee;
+    padding: 10px 20px;
+    border-radius: 20px;
+    margin-top: 10px;
+    box-shadow: 0 10px 20px #2F2F2F77;
+}
+
+.listchef .item .button:hover {
+    background-color: #555;
+    box-shadow: 0 10px 20px #55555577;
+}
+
+/* ipad */
+@media only screen and (max-width: 992px) {
+    .listchef {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* mobile */
+@media only screen and (max-width: 768px) {
+    .listchef {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+</style>

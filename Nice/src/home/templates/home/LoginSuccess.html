@@ -1,0 +1,151 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nice</title>
+</head>
+<body>
+
+<link rel="stylesheet" href="{% static 'css/successLogin.css' %}">
+<main>
+    <div class="container">
+      <div class="brand">
+        <div class="brandname">
+          <h2 id="txtt">Bhancha</h2>
+          <h2 id="txt1">Ghar</h2>
+        </div>
+        <h2>Wellcome There, Now your are also a part of our Team "BhanchaGhar"</h2>
+      </div>
+      
+        <a href="{% url 'login' %}"><button>Login Now</button></a>
+      
+      <div class="links" id="back-to-home">
+        <a href="{% url 'home' %}">Back to home</a>
+      </div>
+    </div>
+  
+</main>
+</body>
+</html>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* ===== BASE ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ===== BODY ===== */
+body {
+    background: url("{% static 'images/siginpng_p.png' %}");
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 600px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 3px solid rgba(219, 120, 120, 0.3);
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateX(60%);
+}
+
+/* ===== BRAND ===== */
+.brand {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.brandname {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+}
+
+#txtt, #txt1 {
+    font-size: 28px;
+    color: #fff;
+    margin: 0 5px;
+}
+
+/* ===== WELCOME MESSAGE ===== */
+.brand h2 {
+    color: #fff;
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+/* ===== BUTTON ===== */
+button {
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #fff;
+    background: #21264D;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+
+button:hover {
+    background: #3949AB;
+}
+
+/* ===== LINKS ===== */
+.links {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+/* ===== MEDIA QUERIES ===== */
+@media (max-width: 700px) {
+    .container {
+        width: 100%;
+        padding: 20px;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .brand h2 {
+        font-size: 20px;
+    }
+
+    #txtt, #txt1 {
+        font-size: 24px;
+    }
+}
+</style>

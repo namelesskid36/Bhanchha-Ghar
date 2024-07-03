@@ -1,0 +1,253 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ user.username }} | BhanchaGhar</title>
+  <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Dancing+Script');
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #e8f5ff;
+        font-family: Arial, sans-serif;
+    }
+
+    .navbar-top {
+        background-color: #fff;
+        color: #333;
+        box-shadow: 0px 4px 8px 0px grey;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+    }
+
+    .title {
+        font-family: 'Dancing Script', cursive;
+        font-size: 24px;
+    }
+
+    .navbar-top ul {
+        display: flex;
+        list-style-type: none;
+    }
+
+    .navbar-top ul li {
+        margin: 0 10px;
+    }
+
+    .navbar-top ul li a {
+        color: #333;
+        text-decoration: none;
+    }
+
+    .icon-count {
+        background-color: #ff0000;
+        color: #fff;
+        font-size: 11px;
+        padding: 2px;
+        border-radius: 50%;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
+
+    .sidenav {
+        background-color: #fff;
+        color: #333;
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        padding: 20px;
+        box-shadow: 0px 4px 8px 0px grey;
+    }
+
+    .profile {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .profile img {
+        border-radius: 50%;
+        box-shadow: 0px 0px 5px 1px grey;
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile .name {
+        font-size: 20px;
+        font-weight: bold;
+        padding-top: 20px;
+    }
+
+    .profile .job {
+        font-size: 16px;
+        font-weight: bold;
+        padding-top: 10px;
+    }
+
+    .sidenav .url {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .sidenav .url a {
+        color: #818181;
+        text-decoration: none;
+        font-size: 20px;
+        display: block;
+        padding: 10px;
+        border-radius: 28px;
+        transition: background-color 0.3s;
+    }
+
+    .sidenav .url a:hover, .sidenav .url .active {
+        background-color: #e8f5ff;
+        color: #000;
+    }
+
+    .main1 {
+        margin-left: 270px;
+        padding: 20px;
+    }
+
+    .profile-detail {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0px 4px 8px 0px grey;
+    }
+
+    .profile-detail img {
+        border: 4px solid #333;
+        background: gray;
+        padding: 4px;
+        width: 300px;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .profile-detail h2 {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .profile-detail p {
+        font-size: 18px;
+        margin: 10px 0;
+    }
+
+    .profile-detail p strong {
+        font-weight: bold;
+    }
+
+    button {
+        padding: 15px 25px;
+        border: unset;
+        border-radius: 15px;
+        color: #212121;
+        background: #e8e8e8;
+        position: relative;
+        font-weight: 1000;
+        font-size: 17px;
+        box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+        transition: all 250ms;
+        overflow: hidden;
+        display: block;
+        margin: 20px auto;
+    }
+
+    button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 0;
+        border-radius: 15px;
+        background-color: #212121;
+        transition: all 250ms;
+        z-index: -1;
+        box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+    }
+
+    button:hover {
+        color: #e8e8e8;
+    }
+
+    button:hover::before {
+        width: 100%;
+    }
+  </style>
+</head>
+<body>
+    <!-- Navbar top -->
+    <div class="navbar-top">
+        <div class="title">
+            <h1>Profile</h1>
+        </div>
+        <ul>
+            <li>
+                <a href="#message">
+                    <span class="icon-count">29</span>
+                    <i class="fa fa-envelope fa-2x"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#notification">
+                    <span class="icon-count">59</span>
+                    <i class="fa fa-bell fa-2x"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#sign-out">
+                    <i class="fa fa-sign-out-alt fa-2x"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- End -->
+
+    <!-- Sidenav -->
+    <div class="sidenav">
+        <div class="profile">
+            <img src="{% static 'images/nameless.png' %}" alt="Profile Picture">
+            <div class="name">{{ user.username }}</div>
+            <div class="job">User</div>
+        </div>
+        <div class="sidenav-url">
+            <div class="url">
+                <a href="#profile" class="active">Profile</a>
+            </div>
+            <div class="url">
+                <a href="#settings">Settings</a>
+            </div>
+        </div>
+    </div>
+    <!-- End -->
+
+    <!-- Main -->
+    <div class="main1">
+        <div class="profile-detail">
+            <h2>{{ user_profile.user }}</h2>
+            <p><strong>Contact Number:</strong> {{ user_profile.contact_number }}</p>
+            <p><strong>Email:</strong> {{ user_profile.email }}</p>
+            <p><strong>Gender:</strong> {{ user_profile.gender }}</p>
+        </div>
+        <button onclick="window.location.href='{% url 'show_product' %}'">Home</button>
+    </div>
+    <!-- End -->
+</body>
+</html>
