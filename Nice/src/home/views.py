@@ -38,9 +38,9 @@ def show_login(request):
             login(request,user)
             user_profile = UserProfile.objects.get(user=user) 
             if user_profile.accountType == "regular":
-                return redirect("/")
+                return redirect("/Product")
             if user_profile.accountType == "broker":
-                return redirect('/Product')
+                return redirect("/ProductBroker")
             else:
                 return HttpResponse("Error login")
         else:
@@ -69,17 +69,17 @@ def show_registerBroker(request):
         email = request.POST.get("email").strip()
         password = request.POST.get("password").strip()
         confirm_password = request.POST.get("confirm-password").strip()
-        gender = request.POST.getlist("gender")
-        profile = request.FILES.get('profile')
+        gender = request.POST.get("gender").strip()
+        profile_picture = request.FILES.get('profile-picture')
         resume = request.FILES.get('resume')
         accountType = "broker"
 
         if not uname or not contact_number or not email or not password or not confirm_password:
             return HttpResponse("Please fill in all fields. Some fields are empty or only contain spaces.")
-        
+
         if User.objects.filter(username=uname).exists():
             return HttpResponse("Username already exists. Please choose a different username.")
-        
+
         if User.objects.filter(email=email).exists():
             return HttpResponse("Email already exists. Please choose a different email.")
 
@@ -89,36 +89,43 @@ def show_registerBroker(request):
         if password != confirm_password:
             return HttpResponse("Your password and confirm password must be the same.")
 
-        if profile:
-            file_extension = profile.name.split('.')[-1].lower()
+        if profile_picture:
+            file_extension = profile_picture.name.split('.')[-1].lower()
             if file_extension not in ["jpg", "jpeg", "png", "gif"]:
                 return HttpResponse("Please upload only image files (jpg, jpeg, png, gif).")
+            profile_picture_name = profile_picture.name
+        else:
+            profile_picture_name = None
+
         if resume:
             file_extension = resume.name.split('.')[-1].lower()
-            if file_extension not in ["jpg", "jpeg", "png", "gif"]:
-                return HttpResponse("Please upload only image files (jpg, jpeg, png, gif).")
-            
-        # Generate verification code and send email
+            if file_extension not in ["jpg", "jpeg", "png", "gif", "pdf"]:
+                return HttpResponse("Please upload only valid files (jpg, jpeg, png, gif, pdf).")
+            resume_name = resume.name
+        else:
+            resume_name = None
+
         verification_code = generate_verification_code()
         send_verification_email(email, verification_code, uname)
 
-        # Temporarily store the user data in session
         request.session['registration_data'] = {
             'username': uname,
             'contact_number': contact_number,
             'email': email,
             'gender': gender,
-            'profile': profile.name,
-            'password':password,
-            'resume': resume.name,
+            'profile_picture_name': profile_picture_name,
+            'resume_name': resume_name,
+            'password': password,
             'accountType': accountType,
             'verification_code': verification_code,
         }
 
-        # Redirect to verification page
         return redirect('/verify_emailbroker')
 
     return render(request, 'home/registerbroker.html')
+
+from django.db import IntegrityError
+
 
 def verify_emailbroker(request):
     if request.method == 'POST':
@@ -129,26 +136,30 @@ def verify_emailbroker(request):
             return HttpResponse("Session expired. Please register again.")
 
         if input_code == registration_data['verification_code']:
-            # Create the user account and save the data to the database
-            user = User.objects.create_user(
-                registration_data['username'],
-                registration_data['email'],
-                registration_data['password']
-            )
-            user.save()
+            try:
+                user = User.objects.create_user(
+                    registration_data['username'],
+                    registration_data['email'],
+                    registration_data['password']
+                )
+                user.save()
+            except IntegrityError:
+                return HttpResponse("Username already exists. Please choose a different username.")
+
+            profile_picture_name = registration_data.get('profile_picture_name')
+            resume_name = registration_data.get('resume_name')
 
             profile = UserProfile(
                 user=user,
                 contact_number=registration_data['contact_number'],
                 email=registration_data['email'],
                 gender=registration_data['gender'],
-                profile=registration_data['profile'],
-                resume=registration_data['resume'],
+                profile=f'static/pfps/{profile_picture_name}' if profile_picture_name else None,
+                resume=f'static/Resumes/{resume_name}' if resume_name else None,
                 accountType=registration_data['accountType']
             )
             profile.save()
 
-            # Clear the session data
             del request.session['registration_data']
 
             return redirect('/LoginSuccess')
@@ -249,20 +260,15 @@ def verify_emailregular(request):
 
 
 def show_product(request):
+    return render(request, 'home/Product.html')
+
+def show_Food(request):
     rooms = Room.objects.all()
 
-    if request.user.is_authenticated:
-        user_profile = UserProfile.objects.get(user=request.user)
+    return render(request, 'home/Foods.html', {'rooms': rooms})
 
-        if user_profile.accountType == "broker":
-            return show_productBroker(request, rooms)
-        else:
-            return render(request, 'home/Product.html', {'rooms': rooms})
-
-    return render(request, 'home/Product.html', {'rooms': rooms})
-
-def show_productBroker(request, rooms):
-    return render(request, 'home/ProductBroker.html', {'rooms': rooms})
+def show_productBroker(request,):
+    return render(request, 'home/ProductBroker.html')
 
 def show_AddProduct(request):
     if request.method == 'POST':
@@ -291,7 +297,7 @@ def show_AddProduct(request):
         )
         room.save()
         messages.add_message(request, messages.SUCCESS, 'Room Added successfully')
-        return redirect('MyProduct')
+        return redirect('Foods')
     
 
     return render(request, 'home/AddProduct.html')

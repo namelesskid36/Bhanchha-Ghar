@@ -1,14 +1,22 @@
-{% extends 'layout.html' %} {% load static%} {% block main_content %}
+{% load static%}
 
-<link rel="stylesheet" href="{% static 'css/verify_emailbroker.css' %}">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Verifaction</title>
+</head>
+<body>
+
 <main>
     <div class="container">
       <div class="brand">
         <div class="brandname">
-          <h2 id="txtt">Mero</h2>
-          <h2 id="txt1">Niwas</h2>
+          <h2 id="txtt">Bhancha</h2>
+          <h2 id="txt1">Ghar</h2>
         </div>
-        <h2>Successfully Registered to MeroNiwwas</h2>
+        <h2 style="color: white;">Wellcome to BhanchaGhar</h2>
     <form method="post">
         {% csrf_token %}
         <div class="connt">
@@ -26,5 +34,151 @@
     <script src="JS/selectRegister.js"></script>
 </main>
 
+</body>
+</html>
 
-{% endblock %}
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* ===== BASE ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ===== BODY ===== */
+body {
+    background: url("{% static 'images/siginpng_p.png' %}");
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 500px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 3px solid rgba(219, 120, 120, 0.3);
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateX(70%);
+}
+
+/* ===== BRAND ===== */
+.brand {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.brandname {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#txtt, #txt1 {
+    font-size: 28px;
+    color: #fff;
+}
+
+/* ===== FORM ===== */
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.connt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+label {
+    color: #fff;
+    font-size: 16px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+button {
+    padding: 15px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #fff;
+    background: #21264D;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+
+button:hover {
+    background: #3949AB;
+}
+
+/* ===== LINKS ===== */
+.links {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+/* ===== MEDIA QUERIES ===== */
+@media (max-width: 700px) {
+    .container {
+        width: 100%;
+        padding: 20px;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    label {
+        font-size: 14px;
+    }
+
+    input {
+        padding: 8px;
+        font-size: 14px;
+    }
+}
+
+</style>

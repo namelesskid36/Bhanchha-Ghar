@@ -1,36 +1,273 @@
-{% extends 'layout.html' %} {% load static %} {% block main_content %}
-<link rel="stylesheet" href="{% static 'css/Product.css' %}" />
-<main>
-  <div class="search-filter">
-    <form method="GET" action="{% url 'show_productBroker' %}">
-      <input type="text" name="q" placeholder="Search for rooms..." />
-      <select name="category">
-        <option value="">All Categories</option>
-        {% for category in categories %}
-        <option value="{{ category.name }}">{{ category.name }}</option>
-        {% endfor %}
-      </select>
-      <button type="submit">Search</button>
-    </form>
-    <a href="{% url 'AddProduct' %}"><button>Add Rooms</button></a>
-    <a href="{% url 'MyProduct' %}"><button>My Rooms</button></a>
-  </div>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static '/css/h_styles.css' %}" />
+    <title>{{ user.username }} | BhanchaGhar</title>
+</head>
+<body>
 
-  <div class="room-listings">
-    {% for room in rooms %}
-    <div class="room-card">
-        <img src="/{{room.img}}" alt="Room Image" width="170px" />
-        <div class="room-info">
-          <h3>{{ room.title }}</h3>
-          <p id="loc">Location: {{ room.location }}</p>
-          <p id="pricee">{{ room.price }}</p>
-          <a href="{% url 'product_detail' room.id %}" class="button">View Now</a>
+  <nav class="navbar">
+    <img src="{% static 'images/logoo.png' %}" class="navbar-logo" alt="logo" />
+    <ul class="navbar-list">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#recipies">Recipies</a></li>
+        <li><a href="#chefs">Chefs</a></li>
+        <li><a href="#">Community</a></li>
+        <li><a href="{% url 'AddProduct' %}">AddProduct</a></li>
+        <li><a href="{% url 'MyProduct' %}">Myproduct</a></li>
+    </ul>
+    <div class="profile-dropdown">
+        <div onclick="toggle()" class="profile-dropdown-btn">
+            <div class="profile-img">
+                <!-- {% if user.is_authenticated %}
+                    <div class="profile-img" style="background-image: url('{{ user.profile.avatar.url }}');"></div>
+                {% else %}
+                    <!-- <div class="profile-img" style="background-image: url('{% static 'images/default_avatar.jpg' %}');"></div> -->
+                {% endif %} -->
+            </div>
+            <span>{{ user.username }} &ensp;<i class="fa-solid fa-angle-down"></i></span>
+        </div>
+        <ul class="profile-dropdown-list">
+            <li class="profile-dropdown-list-item">
+                <a href="{% url 'profile' %}">
+                    <i class="fa-regular fa-user"></i>
+                    Profile
+                </a>
+            </li>
+            <li class="profile-dropdown-list-item">
+                <a href="#">
+                    <i class="fa-regular fa-envelope"></i>
+                    Inbox
+                </a>
+            </li>
+            <li class="profile-dropdown-list-item">
+                <a href="#">
+                    <i class="fa-solid fa-sliders"></i>
+                    Settings
+                </a>
+            </li>
+            <li class="profile-dropdown-list-item">
+                <a href="#"><div id="theme-toggle">
+                    <i class="fa-solid fa-sun"></i>
+                    Dark/Light Mode
+                </div></a>
+            </li>
+            <script>
+              const toggleButton = document.getElementById('theme-toggle');
+              const body = document.body;
+
+              toggleButton.addEventListener('click', () => {
+                  body.classList.toggle('dark-mode');
+              });
+            </script>
+            <hr />
+            <li class="profile-dropdown-list-item">
+                <a href="{% url 'logout' %}">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    Log out
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<hr />
+<header class="section__container header__container" id="home">
+    <div class="header__image__container">
+        <div class="header__content">
+            <h1>Your AI Kitchen Assistant</h1>
+            <p>Find Recipes, Tips, and More with Your AI Kitchen Assistant.</p>
+        </div>
+        <div class="airep__container">
+            <form>
+                <div class="form__group">
+                    <div class="input__group">
+                        <input type="text" />
+                        <label>Dish Type</label>
+                    </div>
+                    <p>What do you want to cook?</p>
+                </div>
+                <div class="form__group">
+                    <div class="input__group">
+                        <input type="text" />
+                        <label>Ingredients</label>
+                    </div>
+                    <p>What ingredients do you have?</p>
+                </div>
+                <div class="form__group">
+                    <div class="input__group">
+                        <input type="text" />
+                        <label>Cooking Time</label>
+                    </div>
+                    <p>How much time do you have?</p>
+                </div>
+                <div class="form__group">
+                    <div class="input__group">
+                        <input type="text" />
+                        <label>Serving Size</label>
+                    </div>
+                    <p>How many servings do you need?</p>
+                </div>
+            </form>
+            <button class="btn"><i class="ri-search-line"></i></button>
         </div>
     </div>
-    {% endfor %}
-  </div>
-</main>
+</header>
 
-<script></script>
+    <section class="section__container popular__container" id="recipies">
+      <h2 class="section__header">Popular Recipes</h2><hr style="width: 40%; margin: auto;">
+      <div class="popular__grid">
+        <div class="popular__card">
+          <img src="{% static '/images/salmon.jpg' %}" alt="popular Recipies" />
+          <div class="popular__content">
+            <div class="popular__card__header">
+              <h4>Salmon</h4>
+              <h4><button class="button">
+                <span class="button-content">More </span>
+              </button>
+              </h4>
+            </div>
+            <p>Trout</p>
+          </div>
+        </div>
+        <div class="popular__card">
+          <img src="{% static '/images/Filet Mignon' %}.jpg" alt="popular Recipies" />
+          <div class="popular__content">
+            <div class="popular__card__header">
+              <h4>Filet Mignon </h4>
+              <h4><button class="button">
+                <span class="button-content">More </span>
+              </button></h4>
+            </div>
+            <p> Ribeye Steak</p>
+          </div>
+        </div>
+        <div class="popular__card">
+          <img src="{% static '/images/Lobster.jpg' %}" alt="popular Recipies" />
+          <div class="popular__content">
+            <div class="popular__card__header">
+              <h4>Lobster</h4>
+              <h4><button class="button">
+                <span class="button-content">More </span>
+              </button></h4>
+            </div>
+            <p>Crab</p>
+          </div>
+        </div>
+        <div class="popular__card">
+          <img src="{% static '/images/Truffles.jpg' %}" alt="popular Recipies" />
+          <div class="popular__content">
+            <div class="popular__card__header">
+              <h4>Truffles</h4>
+              <h4><button class="button">
+                <span class="button-content">More </span>
+              </button></h4>
+            </div>
+            <p>Chocolate</p>
+          </div>
+        </div>
+        <div class="popular__card">
+          <img src="{% static '/images/Kobe Beef' %}.jpg" alt="popular Recipies" />
+          <div class="popular__content">
+            <div class="popular__card__header">
+              <h4>Kobe Beef</h4>
+              <h4><button class="button">
+                <span class="button-content">More </span>
+              </button></h4>
+            </div>
+            <p>Wagyu Beef</p>
+          </div>
+        </div>
+        <div class="popular__card">
+          <img src="{% static '/images/Saffron.jpg' %}" alt="popular Recipies" />
+          <div class="popular__content">
+            <div class="popular__card__header">
+              <h4>Saffron</h4>
+              <h4><button class="button">
+                <span class="button-content">More </span>
+              </button></h4>
+            </div>
+            <p>Turmeric</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-{% endblock %}
+    <section class="client">
+      <div class="section__container client__container">
+        <h2 class="section__header">What our client say</h2><hr style="width: 40%; margin: auto;">
+        <div class="client__grid">
+          <div class="client__card c-1">
+            <img src="{% static '/images/obitio.png' %}" alt="client" />
+            <p>
+              Obito Uchiha: The cooking experience with Bhancha Ghar was smoother than a well-executed ninjutsu. From ingredient suggestions to cooking techniques, everything fell into place seamlessly. I'd recommend Bhancha Ghar to any aspiring home chef out there. It's like unraveling the mysteries of the culinary world with a Sharingan-like precision.
+            </p>
+          </div>
+          <div class="client__card c-2">
+            <img src="{% static '/images/levi.png' %}" alt="client" />
+            <p>
+              Levi Ackerman: The chef I ordered from Bhancha Ghar was like a titan beast but with perfect cooking skills. Just as I lead the Survey Corps with precision and efficiency, this kitchen assistant orchestrates culinary creations with unparalleled mastery. With Bhancha Ghar by my side, I can conquer any recipe with the same ruthlessness I employ against Titans.
+            </p>
+          </div>
+          <div class="client__card c-3">
+            <img src="{% static '/images/light yagami' %}.png" alt="client" />
+            <p>
+              Light Yagami: A tool as powerful as the Death Note itself, but with far tastier outcomes. With its assistance, I feel like I hold the power of life and flavor in my hands. From recipe suggestions to cooking guidance, it's the ultimate ally in my culinary conquests. With Bhancha Ghar, every meal becomes a masterpiece worthy of note.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section__container" id="chefs">
+      <div class="chef__container">
+        <p>100+ Chefs Online</p>
+        <h4>Calling all chefs! Ready to whip up culinary delights in your kitchen.</h4>
+        <a href="{% url 'Foods' %}"><button class="chef__btn" onclick="window.location.href=''">Hier now</button></a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="section__container footer__container">
+        <div class="footer__col">
+          <h3>BhanchaGhar</h3>
+          <p>
+            Your BhanchaGhar is a premier culinary companion that offers a seamless and convenient way to find and create recipes.
+          </p>
+          <p>
+            With a user-friendly interface and a vast selection of recipes, Your BhanchaGhar aims to provide a stress-free experience for cooking enthusiasts seeking the perfect dish.
+          </p>
+        </div>
+        <div class="footer__col">
+          <h4>Company</h4>
+          <p>Recipies</p>
+          <p>About Us</p>
+          
+        </div>
+        <div class="footer__col">
+          <h4>Legal</h4>
+          <p>FAQs</p>
+          <p>Terms & Conditions</p>
+          <p>Privacy Policy</p>
+        </div>
+        <div class="footer__col">
+          <h4>Resources</h4>
+          <p>Social Media</p>
+          <p>Help Center</p>
+          <p>Partnerships</p>
+        </div>
+      </div>
+      <div class="footer__bar">
+        Copyright &copy; 2024 BhanchaGharTeam. All rights reserved.
+      </div>
+    </footer>
+    <script src="{% static '/js/h_script.js' %}"></script>
+  </body>
+</html>
